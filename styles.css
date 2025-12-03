@@ -358,6 +358,82 @@ body {
   text-align: left;
 }
 
+.about-hero {
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.hero-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+.about-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.about-conclusion {
+  font-style: italic;
+  color: #94a3b8;
+  border-left: 3px solid #3b82f6;
+  padding-left: 15px;
+  margin-top: 20px;
+}
+
+.tech-highlights {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 2px solid #334155;
+}
+
+.tech-highlights h3 {
+  color: #f1f5f9;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.tech-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.tech-badge {
+  padding: 6px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.tech-badge.backend {
+  background: linear-gradient(45deg, #16a34a, #22c55e);
+  color: white;
+}
+
+.tech-badge.frontend {
+  background: linear-gradient(45deg, #3b82f6, #60a5fa);
+  color: white;
+}
+
+.tech-badge.architecture {
+  background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+  color: white;
+}
+
+.tech-badge.devops {
+  background: linear-gradient(45deg, #f59e0b, #fbbf24);
+  color: white;
+}
+
 .profile-section {
   text-align: center;
   margin-bottom: 20px;
@@ -714,7 +790,9 @@ body {
 
 /* Modales */
 #project-modal,
-#pipe-modal {
+#pipe-modal,
+#about-modal,
+#contact-modal {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.7);
@@ -725,7 +803,9 @@ body {
 }
 
 #project-modal.hidden,
-#pipe-modal.hidden {
+#pipe-modal.hidden,
+#about-modal.hidden,
+#contact-modal.hidden {
   display: none;
 }
 
@@ -743,6 +823,15 @@ body {
   border: 2px solid #38bdf8;
   position: relative;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Estilos específicos para modales de about y contact */
+#about-modal .modal-content,
+#contact-modal .modal-content {
+  width: 600px;
+  max-width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .modal-content h2 {

@@ -117,6 +117,9 @@ const LEVELS = {
   }
 };
 
+// === Variables globales para DOM ===
+let aboutModal, contactModal;
+
 // === Funciones de navegación de pantallas ===
 function showScreen(screenName) {
   // Ocultar todas las pantallas
@@ -147,6 +150,10 @@ function showScreen(screenName) {
 }
 
 function initializeMenuEvents() {
+  // Inicializar referencias DOM de modales
+  aboutModal = document.getElementById("about-modal");
+  contactModal = document.getElementById("contact-modal");
+
   // Botón Play
   document.getElementById("play-btn")?.addEventListener("click", () => {
     showScreen("game");
@@ -188,7 +195,12 @@ function initializeMenuEvents() {
     });
   });
   
-  // Cerrar modales adicionales
+  // Cerrar modales adicionales - se configurará después
+  setupModalEvents();
+}
+
+function setupModalEvents() {
+  // Esta función se llama cuando el DOM está completamente cargado
   const allModals = [aboutModal, contactModal];
   allModals.forEach(modal => {
     if (!modal) return;
@@ -967,10 +979,6 @@ let totalProjectsViewed = 0;
 const startScreen = document.getElementById("start-screen");
 const levelSelectScreen = document.getElementById("level-select-screen");
 const gameScreen = document.getElementById("game-screen");
-
-// Referencias DOM de modales adicionales
-const aboutModal = document.getElementById("about-modal");
-const contactModal = document.getElementById("contact-modal");
 
 // Compatibility: mantener projects para el nivel actual
 const projects = allProjects.csharp;
@@ -2539,6 +2547,7 @@ function showLoadingScreen() {
 function initializeGameSystems() {
   // Inicializar todos los sistemas del juego
   initializeMenuEvents();
+  setupModalEvents(); // Configurar eventos de modales después
   initAudioControls();
   initVirtualControls();
   initTransportButtons();
