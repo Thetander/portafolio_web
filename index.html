@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thetander – Game Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Pantalla de carga -->
+  <div id="loading-screen" class="screen">
+    <div class="loading-container">
+      <div class="loading-logo">
+        <div class="pixel-character">🎮</div>
+      </div>
+      <h2 class="loading-title">THE THETANDER</h2>
+      <div class="loading-bar-container">
+        <div class="loading-bar">
+          <div class="loading-fill" id="loading-fill"></div>
+        </div>
+      </div>
+      <div class="loading-text" id="loading-text">Initializing portfolio...</div>
+      <div class="loading-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pantalla de inicio -->
+  <div id="start-screen" class="screen">
+    <div class="menu-container">
+      <h1 class="game-title">THE THETANDER</h1>
+      <p class="game-subtitle">Interactive Developer Portfolio</p>
+      
+      <div class="menu-buttons">
+        <button class="menu-btn" id="play-btn">🎮 PLAY</button>
+        <button class="menu-btn" id="level-select-btn">🎯 LEVEL SELECT</button>
+        <button class="menu-btn" id="achievements-btn">🏆 ACHIEVEMENTS</button>
+        <button class="menu-btn" id="about-btn">👤 ABOUT</button>
+        <button class="menu-btn" id="contact-btn">📧 CONTACT</button>
+      </div>
+      
+      <div class="audio-controls">
+        <button class="audio-btn" id="audio-toggle" title="Toggle Audio">
+          🔊 <span id="audio-status">ON</span>
+        </button>
+        <div class="volume-container">
+          <span class="volume-label">🔉</span>
+          <input type="range" id="volume-slider" min="0" max="100" value="30" class="volume-slider">
+        </div>
+      </div>
+      
+      <div class="menu-info">
+        <p>Explora 3 mundos tecnológicos • Descubre proyectos reales</p>
+        <p class="controls-hint">Usa ← → ESPACIO para jugar • ESC para pausar</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selector de niveles -->
+  <div id="level-select-screen" class="screen hidden">
+    <div class="menu-container">
+      <h2>SELECT LEVEL</h2>
+      <div class="level-grid">
+        <div class="level-card" data-level="csharp">
+          <h3>C# Kingdom</h3>
+          <p>Backend • Microservices • .NET</p>
+          <div class="level-preview" style="background: #3b82f6;"></div>
+        </div>
+        <div class="level-card" data-level="typescript">
+          <h3>TypeScript Desert</h3>
+          <p>Frontend • Angular • Node.js</p>
+          <div class="level-preview" style="background: #f6d860;"></div>
+        </div>
+        <div class="level-card" data-level="java">
+          <h3>Java Volcano</h3>
+          <p>Enterprise • Spring • Algorithms</p>
+          <div class="level-preview" style="background: #d62828;"></div>
+        </div>
+      </div>
+      <button class="menu-btn back-btn">← BACK</button>
+    </div>
+  </div>
+
+  <!-- Pantalla del juego -->
+  <div id="game-screen" class="screen hidden">
+    <div class="game-container">
+      <div id="hud">
+        <span>THETANDER • C# KINGDOM</span>
+        <span>PROYECTOS: <span id="project-count">3</span></span>
+        <span>← → moverse • SPACE saltar • ↓ túnel • 1/2/3 niveles • N/P siguiente/anterior</span>
+      </div>
+
+      <div id="world">
+        <!-- Etiqueta gigante del nivel -->
+        <div class="level-label">C# KINGDOM</div>
+
+        <!-- Nubes -->
+        <div class="cloud cloud-small" style="top: 40px; left: 50px;"></div>
+        <div class="cloud cloud-medium" style="top: 80px; left: 300px;"></div>
+        <div class="cloud cloud-big" style="top: 30px; left: 600px;"></div>
+
+        <!-- Personaje -->
+        <div id="player"></div>
+
+        <!-- Suelo -->
+        <div class="ground"></div>
+
+        <!-- Bloques de proyectos -->
+        <div class="block project-block" data-project="0" style="left: 300px; top: 180px;"></div>
+        <div class="block project-block" data-project="1" style="left: 400px; top: 180px;"></div>
+        <div class="block project-block" data-project="2" style="left: 500px; top: 180px;"></div>
+
+        <!-- Túnel (pipe) – portal de transporte -->
+        <div class="pipe" id="pipe-skill" style="left: 700px;">
+          <div class="portal-indicator">🚇</div>
+          <div class="portal-glow"></div>
+        </div>
+
+        <!-- Controles virtuales en pantalla -->
+        <div class="virtual-controls">
+          <div class="control-group movement-controls">
+            <button class="virtual-btn" data-key="ArrowLeft">←</button>
+            <button class="virtual-btn jump-btn" data-key="ArrowUp">↑</button>
+            <button class="virtual-btn" data-key="ArrowRight">→</button>
+            <button class="virtual-btn" data-key="ArrowDown">↓</button>
+          </div>
+          <div class="control-group level-controls">
+            <button class="virtual-btn level-btn" data-key="1">1</button>
+            <button class="virtual-btn level-btn" data-key="2">2</button>
+            <button class="virtual-btn level-btn" data-key="3">3</button>
+          </div>
+          <div class="control-group nav-controls">
+            <button class="virtual-btn nav-btn" data-key="p">◄</button>
+            <button class="virtual-btn nav-btn" data-key="n">►</button>
+            <button class="virtual-btn esc-btn" data-key="Escape">ESC</button>
+          </div>
+        </div>
+
+        <!-- Ayuda contextual -->
+        <div class="context-help">
+          <div class="help-item">
+            <span class="help-icon">🎮</span>
+            <span class="help-text">Usa ← → para moverte</span>
+          </div>
+          <div class="help-item">
+            <span class="help-icon">🚀</span>
+            <span class="help-text">ESPACIO o ↑ para saltar</span>
+          </div>
+          <div class="help-item">
+            <span class="help-icon">🔍</span>
+            <span class="help-text">Golpea bloques desde abajo</span>
+          </div>
+          <div class="help-item">
+            <span class="help-icon">🌍</span>
+            <span class="help-text">1/2/3 para cambiar nivel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de proyectos -->
+  <div id="project-modal" class="hidden">
+    <div class="modal-content">
+      <button class="close-modal">X</button>
+      <h2 id="project-title"></h2>
+      <p id="project-description"></p>
+      <div class="project-details">
+        <p><strong>Tecnologías:</strong> <span id="project-tech"></span></p>
+        <p><strong>Rol:</strong> <span id="project-role"></span></p>
+        <p><strong>Demo:</strong> <span id="project-demo"></span></p>
+      </div>
+      <div class="project-actions">
+        <a id="project-link" href="#" target="_blank" class="project-action-btn primary">📂 Ver Repositorio</a>
+        <button id="project-demo-btn" class="project-action-btn secondary">🚀 Ver Demo</button>
+        <button class="project-action-btn close" onclick="document.getElementById('project-modal').classList.add('hidden')">🔙 Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de túnel con navegación -->
+  <div id="pipe-modal" class="hidden">
+    <div class="modal-content pipe-transport">
+      <button class="close-modal">X</button>
+      <h2>🚇 TRANSPORT TUNNEL</h2>
+      <p class="tunnel-description">Select your destination level:</p>
+      
+      <div class="level-transport-grid">
+        <button class="transport-btn" data-level="csharp">
+          <div class="transport-icon">👑</div>
+          <div class="transport-name">C# Kingdom</div>
+          <div class="transport-desc">Backend • .NET • Microservices</div>
+        </button>
+        
+        <button class="transport-btn" data-level="typescript">
+          <div class="transport-icon">🏜️</div>
+          <div class="transport-name">TypeScript Desert</div>
+          <div class="transport-desc">Frontend • Angular • Node.js</div>
+        </button>
+        
+        <button class="transport-btn" data-level="java">
+          <div class="transport-icon">🌋</div>
+          <div class="transport-name">Java Volcano</div>
+          <div class="transport-desc">Enterprise • Spring • Algorithms</div>
+        </button>
+      </div>
+      
+      <div class="current-level-skills" id="current-skills">
+        <h3>Current Level Skills:</h3>
+        <div id="skills-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal About -->
+  <div id="about-modal" class="hidden">
+    <div class="modal-content">
+      <button class="close-modal">X</button>
+      <h2>About Thetander</h2>
+      <div class="about-content">
+        <div class="profile-section">
+          <div class="avatar">👨‍💻</div>
+          <h3>Joel Zambrano</h3>
+          <p class="title">Fullstack Developer</p>
+        </div>
+        <div class="skills-summary">
+          <p><strong>Tech Stack:</strong></p>
+          <p>• Backend: C#/.NET, Java/Spring, Node.js</p>
+          <p>• Frontend: TypeScript/Angular, React</p>
+          <p>• Database: SQL Server, PostgreSQL, MySQL</p>
+          <p>• Tools: Docker, Git, Azure DevOps</p>
+        </div>
+        <p class="bio">
+          Desarrollador apasionado por crear soluciones robustas y escalables. 
+          Especializado en arquitecturas limpias y tecnologías modernas.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Contact -->
+  <div id="contact-modal" class="hidden">
+    <div class="modal-content">
+      <button class="close-modal">X</button>
+      <h2>Contact Information</h2>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <strong>📧 Email:</strong>
+          <p>developer@thetander.dev</p>
+        </div>
+        <div class="contact-item">
+          <strong>💼 LinkedIn:</strong>
+          <p>linkedin.com/in/joel-zambrano</p>
+        </div>
+        <div class="contact-item">
+          <strong>🐙 GitHub:</strong>
+          <p>github.com/vKail</p>
+        </div>
+        <div class="contact-item">
+          <strong>📄 CV/Resume:</strong>
+          <p>Not linked yet</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje para móviles -->
+  <div class="mobile-message">
+    <h1>🎮 THE THETANDER</h1>
+    <p>
+      Este portafolio interactivo está optimizado para computadoras de escritorio 
+      y laptops donde puedes usar el teclado para controlar el juego.
+    </p>
+    <p>
+      <strong>¡Pero no te preocupes!</strong><br>
+      Puedes conocer mis proyectos y contactarme directamente:
+    </p>
+    <div class="contact-links">
+      <a href="https://github.com/vKail" target="_blank">🐙 Ver GitHub</a>
+      <a href="mailto:developer@thetander.dev">📧 Enviar Email</a>
+      <a href="https://linkedin.com/in/joel-zambrano" target="_blank">💼 LinkedIn</a>
+    </div>
+    <p style="font-size: 0.9rem; margin-top: 30px; opacity: 0.8;">
+      Para la experiencia completa del juego, visítanos desde una computadora 🖥️
+    </p>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
